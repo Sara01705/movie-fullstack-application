@@ -26,12 +26,10 @@ function MovieList() {
             <h3>{movie.title}</h3>
 
             {movie.tagline && (
-  <p className="tagline">{movie.tagline}</p>
-)}
+              <p className="tagline">{movie.tagline}</p>
+            )}
 
-            <p className="rating">
-              ⭐ Rating: {movie.vote_average}/10
-            </p>
+            <p className="rating">⭐ {movie.vote_average}/10</p>
           </div>
         ))}
       </div>

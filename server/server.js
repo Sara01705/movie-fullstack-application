@@ -4,22 +4,17 @@ const fs = require("fs");
 
 const app = express();
 
-
+// Load movie data
 const movies = JSON.parse(
   fs.readFileSync(path.join(__dirname, "movies_metadata.json"))
 );
 
-
-app.get("/api/ping", (req, res) => {
-  res.send("pong!");
-});
-
-
+// API — List movies
 app.get("/api/movies", (req, res) => {
   res.json(movies);
 });
 
-
+// API — Single movie
 app.get("/api/movies/:id", (req, res) => {
   const movie = movies.find(m => m.id == req.params.id);
 
@@ -30,19 +25,9 @@ app.get("/api/movies/:id", (req, res) => {
   res.json(movie);
 });
 
+// Port setup
+const port = process.env.NODE_ENV === "production" ? 3000 : 3001;
 
-let port;
-if (process.env.NODE_ENV === "production") {
-  port = process.env.PORT || 3000;
-  app.use(express.static(path.join(__dirname, "../build")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../build", "index.html"));
-  });
-} else {
-  port = 3001;
-}
-
-
-const listener = app.listen(port, () => {
-  console.log("🚀 Server running on port", listener.address().port);
+app.listen(port, () => {
+  console.log("Server running on port", port);
 });
